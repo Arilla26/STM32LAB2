@@ -134,7 +134,31 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+//TODO Ex1
+int count = 50;
+int n = 1;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	count--;
+	if(count <= 0)
+	{
+		count = 50;
+		HAL_GPIO_TogglePin(RED_GPIO_Port, RED_Pin);
+		n = 1 - n;
+		if(n == 0)
+		{
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			display7SEG(1);
+		}
+		else
+		{
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+			display7SEG(2);
+		}
+	}
+}
 /* USER CODE END 4 */
 
 /**
