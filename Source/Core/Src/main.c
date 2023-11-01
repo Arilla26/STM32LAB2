@@ -134,7 +134,27 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+//TODO EX4
+int count = 25;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	count--;
+	if(count <= 0)
+	{
+		count = 25;
+		if(index_led < MAX_LED)
+		{
+			update7SEG(index_led);
+			display7SEG(led_buffer[index_led]);
+			index_led++;
+		}
+		if(index_led == MAX_LED)
+		{
+			index_led = 0;
+			HAL_GPIO_TogglePin(RED_GPIO_Port, RED_Pin);
+		}
+	}
+}
 /* USER CODE END 4 */
 
 /**
