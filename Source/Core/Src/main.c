@@ -89,8 +89,50 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  setTimer1(250);
+  setTimer2(1000);
+    while (1)
+    {
+  	  if(timer1_flag == 1)
+  	  {
+  		  setTimer1(250);
+  		  if(index_led == 0 || index_led == 3)
+  		  {
+  			  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+  		  }
+  		  if(index_led < MAX_LED)
+  		  {
+  			  update7SEG(index_led);
+  			  display7SEG(led_buffer[index_led]);
+  			  index_led++;
+  		  }
+  		  if(index_led == MAX_LED)
+  		  {
+  			  index_led = 0;
+  		  }
+  	  }
+
+  	  if(timer2_flag == 1)
+  	  {
+  		  HAL_GPIO_TogglePin(RED_GPIO_Port, RED_Pin);
+  		  second++;
+  		  if(second >= 60)
+  		  {
+  			  second = 0;
+  			  minute++;
+  		  }
+  		  if(minuter >= 60)
+  		  {
+  			  minuter = 0;
+  			  hour++;
+  		  }
+  		  if(hour >= 24)
+  		  {
+  			  hour = 0;
+  		  }
+  		  updateClockBuffer();
+  		  setTimer2(1000);
+  	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
